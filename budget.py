@@ -2,10 +2,14 @@
 
 import datetime
 from recurrent import RecurringEvent
+from dateutil import rrule
 
-r = RecurringEvent(now_date=datetime.datetime(2010, 1, 1))
-print(r.parse('every day starting next tuesday until feb'))
+start_time = datetime.datetime(2014, 12, 14)
 
-print(r.parse('feb 2nd'))
+r = RecurringEvent(now_date=start_time)
+
+parsed_rrule = r.parse('1st every month from december to april 30')
+assert parsed_rrule is not None
+
 
 print(r.parse('not a date at all'))
