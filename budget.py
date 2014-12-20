@@ -4,13 +4,9 @@ from datetime import datetime, date, time
 
 from scheduler import Scheduler
 
-start = datetime.combine(date.today(), datetime.min.time()) # the very start of today
-end = datetime(2015, 5, 1)
+start = datetime.combine(date.today(), time()) # first day to start calculations from, and the reference point for relative dates like "next week"
+end = datetime(2015, 5, 1) # the last day to end calculations at
 balance = 4000
-
-# enable cross-platform console coloration using the standard ANSI character sequences
-from colorama import init, Fore, Back, Style
-init()
 
 s = Scheduler(start, end)
 
@@ -26,6 +22,10 @@ s.register("1st every month", (-150, "Investments"))
 s.register("10th every month", (-30, "Phone bill"))
 s.register("19th every month", (-400, "Personal"))
 
+# enable cross-platform console coloration using the standard ANSI character sequences
+from colorama import init, Fore, Back, Style
+init()
+
 running_balance = 0
 for event in [(start, (balance, "START"))] + s.list_events():
     time, (amount, description) = event
@@ -38,3 +38,4 @@ for event in [(start, (balance, "START"))] + s.list_events():
         reset=Fore.WHITE + Back.BLACK + Style.NORMAL,
         time=time, description=description, amount=amount, balance=running_balance
     ))
+input() # wait for user to press Enter before exiting
